@@ -65,12 +65,11 @@ static Node* getNode(LinkedList* this, int nodeIndex)
             pNode = this-> pFirstNode;
             if(nodeIndex != 0)
             {
-                for(i = 0; i < nodeIndex; i++)
+              for(i = 0; i < nodeIndex; i++)
                 {
-                pNode = pNode->pNextNode;
+                    pNode = pNode->pNextNode;
                 }
             }
-
     }
 
     return pNode;
@@ -119,21 +118,20 @@ static int addNode(LinkedList* this, int nodeIndex,void* pElement)
         }
         else
         {
-            int indice = nodeIndex-1;
-            pNodeAux->pNextNode = getNode(this, indice);
+            pNodeAux->pNextNode = getNode(this, nodeIndex);
             pNode->pNextNode = pNodeAux->pNextNode;
             pNode->pElement = pElement;
             this->size++;
             returnAux = 0;
             int i;
-            for(i = 0; i < indice-1; i++)
+            for(i = 0; i < nodeIndex-2; i++)
             {
-                if(i == nodeIndex-1)
-                {
-                    this->pFirstNode->pNextNode = pNode;
-                }
+                if()
+                this->pFirstNode->pNextNode = pNode;
             }
         }
+    }
+
     return returnAux;
 }
 
@@ -379,9 +377,11 @@ LinkedList* ll_clone(LinkedList* this)
  * \return int Retorna  (-1) Error: si el puntero a la listas es NULL
                                 ( 0) Si ok
  */
-int ll_sort(LinkedList* this, int (*pFunc)(void*,void*), int order)
+int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
 {
-    int returnAux = -1;
+    int returnAux =-1;
 
     return returnAux;
+
 }
+
