@@ -63,9 +63,12 @@ static Node* getNode(LinkedList* this, int nodeIndex)
     if(nodeIndex >= 0 && this != NULL && nodeIndex < len)
     {
             pNode = this-> pFirstNode;
-            for(i = 0; i < nodeIndex; i++)
+            if(nodeIndex != 0)
             {
-                pNode = pNode->pNextNode;
+              for(i = 0; i < nodeIndex; i++)
+                {
+                    pNode = pNode->pNextNode;
+                }
             }
     }
 
@@ -99,14 +102,33 @@ static int addNode(LinkedList* this, int nodeIndex,void* pElement)
 {
     int returnAux = -1;
     int len = ll_len(this);
-    Node* pNode;
 
-    if(this != NULL && nodeIndex >= 0 && nodeIndex < len)
+    if(this != NULL && nodeIndex >= 0 && nodeIndex <= len)
     {
+        Node* pNode = (Node*) calloc(sizeof(Node), 1);
+        Node* pNodeAux = (Node*) calloc(sizeof(Node), 1);
 
         if(nodeIndex == 0)
         {
-            this->pFirstNode;
+            pNode->pNextNode = this->pFirstNode;
+            pNode->pElement = pElement;
+            this->pFirstNode = pNode;
+            this->size++;
+            returnAux = 0;
+        }
+        else
+        {
+            pNodeAux->pNextNode = getNode(this, nodeIndex);
+            pNode->pNextNode = pNodeAux->pNextNode;
+            pNode->pElement = pElement;
+            this->size++;
+            returnAux = 0;
+            int i;
+            for(i = 0; i < nodeIndex-2; i++)
+            {
+                if()
+                this->pFirstNode->pNextNode = pNode;
+            }
         }
     }
 
@@ -355,7 +377,7 @@ LinkedList* ll_clone(LinkedList* this)
  * \return int Retorna  (-1) Error: si el puntero a la listas es NULL
                                 ( 0) Si ok
  */
-int ll_sort(LinkedList* this, int (*pFunc)(void*,void*), int order)
+int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
 {
     int returnAux =-1;
 
