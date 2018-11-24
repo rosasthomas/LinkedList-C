@@ -189,11 +189,11 @@ int ll_add(LinkedList* this, void* pElement)
 void* ll_get(LinkedList* this, int index)
 {
     void* returnAux = NULL;
+    Node* nodeAux = NULL;
     int len = ll_len(this);
 
     if(this != NULL && index >= 0 && index < len)
     {
-        Node* nodeAux = calloc(sizeof(Node), 1);
         nodeAux = getNode(this, index);
         returnAux = nodeAux->pElement;
     }
@@ -214,12 +214,12 @@ void* ll_get(LinkedList* this, int index)
 int ll_set(LinkedList* this, int index,void* pElement)
 {
     int returnAux = -1;
+    Node* nodeAux = NULL;
 
     int len = ll_len(this);
 
     if(this != NULL && index >= 0 && index < len)
     {
-        Node* nodeAux = calloc(sizeof(Node), 1);
         nodeAux = getNode(this, index);
         nodeAux->pElement = pElement;
         returnAux = 0;
@@ -462,7 +462,6 @@ int ll_containsAll(LinkedList* this,LinkedList* this2)
 
     if(this != NULL && this2 != NULL)
     {
-
         returnAux = 1;
 
         void* pVoid = NULL;
@@ -475,8 +474,8 @@ int ll_containsAll(LinkedList* this,LinkedList* this2)
 
             if(!ll_contains(this, pVoid))
             {
-                    returnAux = 0;
-                    break;
+                returnAux = 0;
+                break;
             }
         }
     }
@@ -604,3 +603,64 @@ int ll_sort(LinkedList* this, int (*pFunc)(void*,void*), int order)
 
 }
 
+
+/** \brief Filtra los elementos de la lista utilizando la funcion criterio recibida como parametro
+     * \param this LinkedList* Puntero a la lista
+     * \param pFunc (*pFunc) Puntero a la funcion criterio
+     * \return LinkedList* Retorna  (NULL) Error: si el puntero a la listas es NULL
+                                (puntero a la nueva lista) Si ok
+*/
+LinkedList* ll_filter(LinkedList* this, int (*pFunc)(void*))
+{
+    LinkedList* filterList = NULL;
+
+    if(this != NULL)
+    {
+        filterList = ll_newLinkedList();
+
+        void* pVoid;
+        int i;
+        int len = ll_len(this);
+        for(i = 0; i < len; i++)
+        {
+            pVoid = ll_get(this, i);
+            if(pVoid != NULL)
+            {
+                if(pFunc(pVoid))
+                {
+                    ll_add(filterList, pVoid);
+                }
+            }
+
+        }
+
+    }
+    return filterList;
+}
+
+LinkedList* ll_map(LinkedList* this, void* (*pFunc)(void*))
+{
+    LinkedList* filterList = NULL;
+
+    if(this != NULL)
+    {
+        filterList = ll_newLinkedList();
+
+        void* pVoid;
+        void* pVoidAux;
+        int i;
+        int len = ll_len(this);
+        for(i = 0; i < len; i++)
+        {
+            pVoid = ll_get(this, i);
+            if(pVoid != NULL)
+            {
+                pVoidAux = pFunc(pVoid);
+                ll_set(this, i, pVoidAux);
+            }
+
+        }
+
+    }
+    return filterList;
+}
